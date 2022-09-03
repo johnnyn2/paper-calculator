@@ -66,6 +66,7 @@ function App() {
           <Box className="container" sx={{marginY: '10px'}}>
             <Typography variant="body2">一舊 = </Typography>
             <TextField
+                type="number"
                 value={handPerShard}
                 onChange={onChange}
                 size="small"
@@ -80,6 +81,7 @@ function App() {
               總共有
             </Typography>
             <TextField
+                type="number"
                 value={totalPaper}
                 onChange={onChange}
                 size="small"
