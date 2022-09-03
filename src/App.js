@@ -83,7 +83,7 @@ function App() {
                 value={totalPaper}
                 onChange={onChange}
                 size="small"
-                sx={{marginRight: '10px'}}
+                sx={{marginX: '10px'}}
                 name="totalPaper"/>
             <Typography variant="body2">
               張紙
