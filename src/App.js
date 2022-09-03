@@ -8,6 +8,7 @@ const initState = {
   handPerShard: 0,
   totalShard: 0,
   totalHandShard: 0,
+  totalPaper: 0,
 }
 function App() {
   const [state, setState] = useState(initState);
@@ -31,10 +32,18 @@ function App() {
   const {
     paperPerHand,
     handPerShard,
-    totalShard,
+    totalPaper,
   } = state;
   const totalPaperShard = paperPerHand * handPerShard;
-  const totalPaper = paperPerHand * handPerShard * totalShard;
+  const totalShard = totalPaperShard != 0 ? Math.floor(totalPaper / totalPaperShard) : 0;
+  const totalHand = paperPerHand != 0 ? Math.floor(totalPaper / paperPerHand) : 0;
+  const totalShardPaper = totalShard * handPerShard * paperPerHand;
+  const remainHand = paperPerHand != 0 ?
+    Math.floor((totalPaper - totalShardPaper) / paperPerHand)
+    : 0;
+  const totalRemainHandPaper = remainHand * paperPerHand; 
+  const remainPaper =  totalPaper - totalHand * paperPerHand;
+  
   return (
     <Box className="outer-container">
       <Card sx={{padding: '2rem'}}>
@@ -67,20 +76,24 @@ function App() {
             </Typography>
           </Box>
           <Box className="container" sx={{marginY: '10px'}}>
+            <Typography variant="body2">
+              總共有
+            </Typography>
             <TextField
-                value={totalShard}
+                value={totalPaper}
                 onChange={onChange}
                 size="small"
                 sx={{marginRight: '10px'}}
-                name="totalShard"/>
+                name="totalPaper"/>
             <Typography variant="body2">
-            舊
+              張紙
             </Typography>
           </Box>
           <div className="divider"></div>
-          <Typography sx={{marginTop: '1rem'}}>總數</Typography>
-          <Typography>一舊總共有{totalPaperShard}張紙</Typography>
-          <Typography>總共有{totalPaper}張紙</Typography>
+          <Typography sx={{marginTop: '1rem'}}>等於</Typography>
+          <Typography>{totalShard}舊紙 + {remainHand}手紙 + {remainPaper}張紙</Typography>
+          <Typography>{totalShard}舊紙 = {totalShardPaper}張紙</Typography>
+          <Typography>{remainHand}手紙 = {totalRemainHandPaper}張紙</Typography>
         </CardContent>
       </Card>
     </Box>
