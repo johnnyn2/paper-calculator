@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState } from 'react';
-import { TextField, Typography, Box, Horiz, CardContent, Card } from '@mui/material';
+import { TextField, Typography, Box, CardContent, Card } from '@mui/material';
 
 const initState = {
   paperPerHand: 0,
-  handPerShard: 0,
+  paperPerShard: 0,
   totalShard: 0,
   totalHandShard: 0,
   totalPaper: 0,
@@ -31,26 +30,26 @@ function App() {
 
   const {
     paperPerHand,
-    handPerShard,
+    paperPerShard,
     totalPaper,
   } = state;
-  const totalPaperShard = paperPerHand * handPerShard;
-  const totalShard = totalPaperShard != 0 ? Math.floor(totalPaper / totalPaperShard) : 0;
-  const totalHand = paperPerHand != 0 ? Math.floor(totalPaper / paperPerHand) : 0;
-  const totalShardPaper = totalShard * handPerShard * paperPerHand;
+  
+  const totalShard = paperPerShard != 0 ? Math.floor(totalPaper / paperPerShard) : 0;
+  const totalShardPaper = totalShard * paperPerShard;
   const remainHand = paperPerHand != 0 ?
     Math.floor((totalPaper - totalShardPaper) / paperPerHand)
     : 0;
-  const totalRemainHandPaper = remainHand * paperPerHand; 
-  const remainPaper =  totalPaper - totalHand * paperPerHand;
-  
+  const handPerShard = paperPerHand != 0 ? Math.floor(paperPerShard / paperPerHand) : 0;
+  const remainShardPaper = paperPerShard - handPerShard * paperPerHand;
+  const totalRemainHandPaper = remainHand * paperPerHand;
+  const remainPaper =  totalPaper - totalShard * paperPerShard - remainHand * paperPerHand;
   return (
     <Box className="outer-container">
       <Card sx={{padding: '2rem'}}>
         <CardContent>
           <Typography sx={{paddingBottom: '1rem'}} variant='h5'>何業成專用印刷換算器</Typography>
           <Box className="container">
-            <Typography variant="body2">一手 = </Typography>
+            <Typography variant="body2">1手 = </Typography>
             <TextField
               type="number"
               value={paperPerHand}
@@ -61,19 +60,19 @@ function App() {
                 inputProps: {min: 0}
               }}
               name="paperPerHand"/>
-            <Typography variant="body2">張紙</Typography>
+            <Typography variant="body2">張</Typography>
           </Box>
           <Box className="container" sx={{marginY: '10px'}}>
-            <Typography variant="body2">一舊 = </Typography>
+            <Typography variant="body2">1舊 = </Typography>
             <TextField
                 type="number"
-                value={handPerShard}
+                value={paperPerShard}
                 onChange={onChange}
                 size="small"
                 sx={{marginX: '10px'}}
-                name="handPerShard"/>
+                name="paperPerShard"/>
             <Typography variant="body2">
-            手
+            張
             </Typography>
           </Box>
           <Box className="container" sx={{marginY: '10px'}}>
@@ -88,14 +87,15 @@ function App() {
                 sx={{marginX: '10px'}}
                 name="totalPaper"/>
             <Typography variant="body2">
-              張紙
+              張
             </Typography>
           </Box>
           <div className="divider"></div>
           <Typography sx={{marginTop: '1rem'}}>等於</Typography>
-          <Typography>{totalShard}舊紙 + {remainHand}手紙 + {remainPaper}張紙</Typography>
-          <Typography>{totalShard}舊紙 = {totalShardPaper}張紙</Typography>
-          <Typography>{remainHand}手紙 = {totalRemainHandPaper}張紙</Typography>
+          <Typography>{totalShard}舊 + {remainHand}手 + {remainPaper}張</Typography>
+          <Typography>{totalShard}舊 = {totalShardPaper}張</Typography>
+          <Typography>{remainHand}手 = {totalRemainHandPaper}張</Typography>
+          <Typography>1舊 = {handPerShard}手 + {remainShardPaper}張</Typography>
         </CardContent>
       </Card>
     </Box>
