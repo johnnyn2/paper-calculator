@@ -34,12 +34,12 @@ function App() {
     totalPaper,
   } = state;
   
-  const totalShard = paperPerShard != 0 ? Math.floor(totalPaper / paperPerShard) : 0;
+  const totalShard = paperPerShard !== 0 ? Math.floor(totalPaper / paperPerShard) : 0;
   const totalShardPaper = totalShard * paperPerShard;
-  const remainHand = paperPerHand != 0 ?
+  const remainHand = paperPerHand !== 0 ?
     Math.floor((totalPaper - totalShardPaper) / paperPerHand)
     : 0;
-  const handPerShard = paperPerHand != 0 ? Math.floor(paperPerShard / paperPerHand) : 0;
+  const handPerShard = paperPerHand !== 0 ? Math.floor(paperPerShard / paperPerHand) : 0;
   const remainShardPaper = paperPerShard - handPerShard * paperPerHand;
   const totalRemainHandPaper = remainHand * paperPerHand;
   const remainPaper =  totalPaper - totalShard * paperPerShard - remainHand * paperPerHand;
@@ -52,7 +52,7 @@ function App() {
             <Typography variant="body2">1手 = </Typography>
             <TextField
               type="number"
-              value={paperPerHand}
+              value={paperPerHand !== 0 ? paperPerHand : ''}
               onChange={onChange}
               size="small"
               sx={{marginX: '10px'}}
@@ -66,7 +66,7 @@ function App() {
             <Typography variant="body2">1舊 = </Typography>
             <TextField
                 type="number"
-                value={paperPerShard}
+                value={paperPerShard !== 0 ? paperPerShard : ''}
                 onChange={onChange}
                 size="small"
                 sx={{marginX: '10px'}}
@@ -81,7 +81,7 @@ function App() {
             </Typography>
             <TextField
                 type="number"
-                value={totalPaper}
+                value={totalPaper !== 0 ? totalPaper : ''}
                 onChange={onChange}
                 size="small"
                 sx={{marginX: '10px'}}
